@@ -7,9 +7,10 @@ import { FaRegUser, FaUserCircle } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
 import { MdDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { RiContactsLine, RiLogoutCircleLine, RiProfileLine } from "react-icons/ri";
-import Myprofile from "./components/MyProfile";
+import Myprofile from "./components/contentMenuUsers/MyProfile";
 import { useState } from "react";
 import ThemeSwitcher from "./components/ThemeSwitcher";
+import Chats from "./components/contentMenuUsers/Chats";
 
 const componets = [
 
@@ -92,7 +93,7 @@ export default function Home() {
 
         </div>
         <div className="w-[30%] bg-zinc-100 dark:bg-slate-800  overflow-auto">
-
+          <Chats />
         </div>
         <div className="w-[65%] bg-white dark:bg-slate-900   overflow-auto">
           Menssage Contact

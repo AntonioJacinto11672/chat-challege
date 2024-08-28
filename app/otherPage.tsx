@@ -4,7 +4,7 @@ import { FaRegUser, FaUserCircle } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
 import { MdDarkMode } from "react-icons/md";
 import { RiContactsLine, RiLogoutCircleLine, RiProfileLine } from "react-icons/ri";
-import Myprofile from "./components/MyProfile";
+import Myprofile from "./components/contentMenuUsers/MyProfile";
 
 const componets = [
 
