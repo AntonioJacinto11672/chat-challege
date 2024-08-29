@@ -12,6 +12,7 @@ import { useState } from "react";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import Chats from "./components/contentMenuUsers/Chats";
 import Settings from "./components/contentMenuUsers/Settings";
+import MenssageContent from "./components/MessageContent";
 
 const componets = [
 
@@ -93,11 +94,11 @@ export default function Home() {
           </div>
 
         </div>
-        <div className="w-[30%] h-full bg-gray-50 text-black dark:bg-slate-800  overflow-y-hidden mb-[80px] lg:mb-0 ">
-          <Settings />
+        <div className="w-[30%] h-full bg-gray-50 text-black dark:text-white dark:bg-slate-800  overflow-y-hidden mb-[80px] lg:mb-0 ">
+          <Chats />
         </div>
-        <div className="w-[65%] bg-white dark:bg-slate-900  ">
-          Menssage Contact
+        <div className="w-[65%] bg-white dark:bg-slate-900  overflow-hidden">
+         <MenssageContent />
         </div>
       </main>
     </>
