@@ -1,7 +1,7 @@
 import { CiMenuKebab } from "react-icons/ci";
 import { FaCircle } from "react-icons/fa";
 
-const Myprofile = () => {
+const Settings = () => {
     return (<>
         <div className="flex flex-col  p-4 ">
             <div className=" flex justify-between text-lg font-semibold">
@@ -86,4 +86,4 @@ const Myprofile = () => {
     </>);
 }
 
-export default Myprofile;
+export default Settings;

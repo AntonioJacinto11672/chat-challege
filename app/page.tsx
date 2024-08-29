@@ -92,10 +92,10 @@ export default function Home() {
           </div>
 
         </div>
-        <div className="w-[30%] bg-zinc-100 dark:bg-slate-800  overflow-auto">
-          <Chats />
+        <div className="w-[30%] h-full bg-zinc-100 dark:bg-slate-800  overflow-y-hidden mb-[80px] lg:mb-0 ">
+          <Myprofile />
         </div>
-        <div className="w-[65%] bg-white dark:bg-slate-900   overflow-auto">
+        <div className="w-[65%] bg-white dark:bg-slate-900  ">
           Menssage Contact
         </div>
       </main>
