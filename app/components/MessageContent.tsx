@@ -1,15 +1,19 @@
 import { CiMenuKebab } from "react-icons/ci";
-import { IoSearch } from "react-icons/io5";
+import { IoMenuSharp, IoSearch } from "react-icons/io5";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { VscKebabVertical } from "react-icons/vsc";
 
-const MenssageContent = () => {
+interface MenssageContentProps {
+    openMenu: () => void
+}
+const MenssageContent: React.FC<MenssageContentProps> = ({ openMenu }) => {
     return (<>
         <div className="grid grid-rows-12  h-full ">
             {/* Start Message Header */}
             <div className="Message-header  row-span-1 p-4 shadow-sm  border-b-2 dark:border-b-slate-800  dark:bg-slate-700 flex justify-between items-center">
                 <div>
                     <div className="flex items-center gap-4">
+                        <div className="lg:hidden text-2xl font-medium cursor-pointer" onClick={openMenu}><IoMenuSharp /></div>
                         <img
                             className="w-10 h-10 rounded-full"
                             src="avatar2.png"
@@ -59,7 +63,7 @@ const MenssageContent = () => {
 
                 </div>
 
-                <div className="flex items-start gap-2.5 flex-row-reverse">
+                <div className="flex items-start gap-2.5 flex-row-reverse mt-3">
                     <img
                         className="w-8 h-8 rounded-full"
                         src="avatar2.png"
