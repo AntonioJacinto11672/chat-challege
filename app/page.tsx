@@ -11,6 +11,7 @@ import Myprofile from "./components/contentMenuUsers/MyProfile";
 import { useState } from "react";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import Chats from "./components/contentMenuUsers/Chats";
+import Settings from "./components/contentMenuUsers/Settings";
 
 const componets = [
 
@@ -92,8 +93,8 @@ export default function Home() {
           </div>
 
         </div>
-        <div className="w-[30%] h-full bg-zinc-100 dark:bg-slate-800  overflow-y-hidden mb-[80px] lg:mb-0 ">
-          <Myprofile />
+        <div className="w-[30%] h-full bg-gray-50 text-black dark:bg-slate-800  overflow-y-hidden mb-[80px] lg:mb-0 ">
+          <Settings />
         </div>
         <div className="w-[65%] bg-white dark:bg-slate-900  ">
           Menssage Contact

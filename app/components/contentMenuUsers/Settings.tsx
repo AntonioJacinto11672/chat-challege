@@ -1,7 +1,119 @@
 import { CiMenuKebab } from "react-icons/ci";
 import { FaCircle } from "react-icons/fa";
+import { Accordion, AccordionItem } from "@nextui-org/react";
+import { AccordionItemProps } from "@/types/AccordionItemProps";
+import AccordionComponent from "../flowbite/AcordionComponent";
+
+const items: AccordionItemProps[] = [
+    {
+        id: 'accordion-example-heading-1',
+        title: 'Personal Info',
+        content: (
+            <>
+                <div className="p-5">
+                    <div>
+                        <div className="ltr:float-right rtl:float-left">
+                            <button
+                                type="button"
+                                className="py-1.5 btn bg-slate-100 border-transparent rounded hover:bg-gray-50 transition-all ease-in-out dark:bg-zinc-600 dark:text-gray-50 dark:hover:bg-zinc-500/50"
+                            >
+                                <i className="mr-1 align-middle ri-edit-fill" /> Edit
+                            </button>
+                        </div>
+                        <p className="mb-1 text-gray-500 dark:text-gray-300">Name</p>
+                        <h5 className="text-sm dark:text-gray-50">Patricia Smith</h5>
+                    </div>
+                    <div className="mt-5">
+                        <p className="mb-1 text-gray-500 dark:text-gray-300">Email</p>
+                        <h5 className="text-sm dark:text-gray-50">adc@123.com</h5>
+                    </div>
+                    <div className="mt-5">
+                        <p className="mb-1 text-gray-500 dark:text-gray-300">Time</p>
+                        <h5 className="text-sm dark:text-gray-50">11:40 AM</h5>
+                    </div>
+                    <div className="mt-5">
+                        <p className="mb-1 text-gray-500 dark:text-gray-300">Location</p>
+                        <h5 className="text-sm dark:text-gray-50">California, USA</h5>
+                    </div>
+                </div>
+            </>
+        ),
+        isActive: true,
+    },
+    {
+        id: 'accordion-example-heading-2',
+        title: 'Privacy',
+        content: (
+            <>
+                <label className="flex items-center justify-between cursor-pointer pb-4">
+                <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                        status
+                    </span>
+                    <input
+                        type="checkbox"
+                        defaultValue=""
+                        className="sr-only peer"
+                    />
+                    <div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600" />
+                   
+                </label>
+                <label className="flex items-center justify-between cursor-pointer">
+                <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                        last seen
+                    </span>
+                    <input
+                        type="checkbox"
+                        defaultValue=""
+                        className="sr-only peer"
+                    />
+                    <div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600" />
+                   
+                </label>
+
+            </>
+        ),
+        isActive: false,
+    },
+    {
+        id: 'accordion-example-heading-3',
+        title: 'Help',
+        content: (
+            <>
+                <div className="p-5">
+                    <div className="py-3">
+                        <h5 className="mb-0 text-gray-700 text-13 dark:text-gray-300">
+                            <a href="#" className="block text-body">
+                                FAQs
+                            </a>
+                        </h5>
+                    </div>
+                    <div className="py-3 border-t border-gray-100 dark:border-zinc-600">
+                        <h5 className="mb-0 text-gray-700 text-13 dark:text-gray-300">
+                            <a href="#" className="text-body d-block">
+                                Contact
+                            </a>
+                        </h5>
+                    </div>
+                    <div className="py-3 border-t border-gray-100 dark:border-zinc-600">
+                        <h5 className="mb-0 text-gray-700 text-13 dark:text-gray-300">
+                            <a href="#" className="text-body d-block">
+                                Terms &amp; Privacy policy
+                            </a>
+                        </h5>
+                    </div>
+                </div>
+
+            </>
+        ),
+        isActive: false,
+    },
+
+];
 
 const Settings = () => {
+    const defaultContent =
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+
     return (<>
         <div className="flex flex-col  p-4 ">
             <div className=" flex justify-between text-lg font-semibold">
@@ -24,62 +136,16 @@ const Settings = () => {
             </div>
             <hr className="border-2 w-full text-center rounded-md my-1" />
 
-            
-            <div>
-                <div className="text-gray-700  my-4">
-                    <h2>
-                        <button
-                            type="button"
-                            className="flex items-center justify-between w-full px-3 py-2 font-medium text-left border border-gray-100 rounded-t accordion-header group active dark:border-b-zinc-600 dark:bg-zinc-600 dark:border-zinc-600"
-                        >
-                            <span className="m-0 text-[14px] dark:text-gray-50 font-semibold ltr:hidden rtl:block">
-                                About{" "}
 
-                            </span>
-                            <i className="mdi mdi-chevron-down text-lg group-[.active]:rotate-180 dark:text-gray-50" />
-                        </button>
-                    </h2>
-                    <div className="block bg-white border border-t-0 border-gray-100 accordion-body dark:bg-transparent dark:border-zinc-600 ">
-                        <div className="p-4">
-                            <div>
-                                <p className="mb-1 text-gray-500 dark:text-gray-300">Name</p>
-                                <h5 className="text-sm dark:text-gray-50">Patricia Smith</h5>
-                            </div>
-                            <div className="mt-1">
-                                <p className="mb-1 text-gray-500 dark:text-gray-300">Email</p>
-                                <h5 className="text-sm dark:text-gray-50">adc@123.com</h5>
-                            </div>
-                            <div className="mt-1">
-                                <p className="mb-1 text-gray-500 dark:text-gray-300">Time</p>
-                                <h5 className="text-sm dark:text-gray-50">11:40 AM</h5>
-                            </div>
-                            <div className="mt-1">
-                                <p className="mb-1 text-gray-500 dark:text-gray-300">Location</p>
-                                <h5 className="text-sm dark:text-gray-50">California, USA</h5>
-                            </div>
-
-                            <div className="mt-1">
-                                <p className="mb-1 text-gray-500 dark:text-gray-300">Location</p>
-                                <h5 className="text-sm dark:text-gray-50">California, USA</h5>
-                            </div>
-
-                            <div className="mt-1">
-                                <p className="mb-1 text-gray-500 dark:text-gray-300">Location</p>
-                                <h5 className="text-sm dark:text-gray-50">California, USA</h5>
-                            </div>
-
-                            <div className="mt-1">
-                                <p className="mb-1 text-gray-500 dark:text-gray-300">Location</p>
-                                <h5 className="text-sm dark:text-gray-50">California, USA</h5>
-                            </div>
-
-                            <div className="mt-1">
-                                <p className="mb-1 text-gray-500 dark:text-gray-300">Location</p>
-                                <h5 className="text-sm dark:text-gray-50">California, USA</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div className=" my-4">
+                <AccordionComponent
+                    items={items}
+                    options={{
+                        alwaysOpen: true,
+                        activeClasses: 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white',
+                        inactiveClasses: 'text-gray-500 dark:text-gray-400',
+                    }}
+                />
             </div>
         </div>
 
