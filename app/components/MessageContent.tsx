@@ -6,7 +6,7 @@ import { VscKebabVertical } from "react-icons/vsc";
 const MenssageContent = () => {
     return (<>
         <div className="grid grid-rows-12  h-full ">
-
+            {/* Start Message Header */}
             <div className="Message-header  row-span-1 p-4 shadow-sm  border-b-2 dark:border-b-slate-800  dark:bg-slate-700 flex justify-between items-center">
                 <div>
                     <div className="flex items-center gap-4">
@@ -26,11 +26,12 @@ const MenssageContent = () => {
                 </div>
 
                 <div className="flex  font-bold items-center justify-center content-center gap-4 text-xl">
-                    <div> <IoSearch   /> </div>
-                    <div> <VscKebabVertical  /> </div>
+                    <div> <IoSearch /> </div>
+                    <div> <VscKebabVertical /> </div>
                 </div>
             </div>
-
+            {/* End Message Header */}
+            {/* Start Message Content */}
             <div className="Message-Content  row-span-9 overflow-auto p-4">
 
                 <div className="flex items-start gap-2.5 ">
@@ -85,6 +86,8 @@ const MenssageContent = () => {
 
 
             </div>
+            {/* End Message Content */}
+            {/* Start Message Footer Send Message */}
             <div className="Message-footer  row-span-2 ">
                 <form>
                     <label htmlFor="chat" className="sr-only">
@@ -117,6 +120,7 @@ const MenssageContent = () => {
                 </form>
 
             </div>
+            {/* Start Message Footer Send Message */}
         </div>
     </>);
 }

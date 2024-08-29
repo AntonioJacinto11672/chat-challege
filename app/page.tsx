@@ -27,7 +27,8 @@ export default function Home() {
   return (
     <>
       <main className="flex content-center h-[100vh]">
-        {/* Main COntent */}
+        {/* start Main COntent */}
+        {/* Start Sidebar  */}
         <div className="w-[5%] font-semibold bg-white h-full dark:bg-slate-700 text-2xl text-gray-600 dark:text-gray-100 shadow-md z-50  border-r-2  border-r-slate-200 dark:border-r-slate-800  lg:my-auto flex  flex-col justify-between content-center items-center p-7 ">
 
           <div> <AiFillMessage className=" text-indigo-600" /> </div>
@@ -94,12 +95,19 @@ export default function Home() {
           </div>
 
         </div>
+        {/* End SideBar */}
+        {/* Start  profile ( chat list/ config  */}
         <div className="w-[30%] h-full bg-gray-50 text-black dark:text-white dark:bg-slate-800  overflow-y-hidden mb-[80px] lg:mb-0 ">
           <Chats />
         </div>
+        {/* End  profile ( chat list/ config  */}
+        {/* Start Message Content */}
+
         <div className="w-[65%] bg-white dark:bg-slate-900  overflow-hidden">
-         <MenssageContent />
+          <MenssageContent />
         </div>
+
+        {/* End Message Content */}
       </main>
     </>
   );

@@ -21,10 +21,11 @@ const ThemeSwitcher = () => {
 
     const renderThemeChanger = () => {
         if (!mounted) return null;
-
+        /* Switch Theme dark or ligth */
         const currentTheme = theme === "system" ? systemTheme : theme;
 
         if (currentTheme === "dark") {
+            
             return (
                 <li className="flex-grow lg:flex-grow-0">
                     <a id="default-tab" href="#first" className="tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all">
