@@ -2,6 +2,8 @@ import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { routes } from "./route";
 import { userRoutes } from "./routers/usersRoutes";
+import { messageRoutes } from "./routers/messageRoutes";
+import { conversationRoutes } from "./routers/conversetionRoute";
 
 //Init server
 
@@ -19,6 +21,8 @@ const start = async () => {
     await app.register(cors)
     await app.register(routes)
     await app.register(userRoutes)
+    await app.register(messageRoutes)
+    await app.register(conversationRoutes)
 
     try {
 

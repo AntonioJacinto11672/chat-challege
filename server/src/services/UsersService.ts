@@ -1,6 +1,5 @@
 import { User } from "@prisma/client";
 import prismaClient from "../prisma";
-import { TaskType } from "../types/taskType";
 
 interface IdParams {
     id: string
@@ -15,7 +14,9 @@ class UserService {
 
     /* create a new user */
     async ceateUsers(data: User) {
-        console.log(data)
+        //console.log(data)
+
+        //await this.emailDb(data)
         const responseServiceUser = await prismaClient.user.create({
             data: {
                 ...data
@@ -65,9 +66,9 @@ class UserService {
                                 mode: 'insensitive',
                             },
                         },
-                        
+
                     ],
-                
+
                 },
                 orderBy: {
                     createdAt: 'desc'
@@ -219,7 +220,6 @@ class UserService {
             console.log(error)
         }
     }
-
 
 }
 
