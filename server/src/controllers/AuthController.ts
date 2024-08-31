@@ -10,32 +10,42 @@ class AuthController {
 
     async login(request: FastifyRequest, reply: FastifyReply) {
         const data: LoginType = request.body as LoginType
+        console.log("Requisição chegou sim ")
 
         if (!data) {
-            throw new Error("Email And Password is required!")
+            console.error("Email And Password is required!")
+            return reply.status(401).send({ message: 'Email And Password is required!' });
         }
 
         if (!data.email) {
-            throw new Error("Email is required!")
+            console.error("Email is required!")
         } else if (!validateEmail(data.email)) {
-            throw new Error("Email not have valid format!")
+            console.error("Email not have valid format!")
+            return reply.status(401).send({ message: 'Email not have valid format!' });
+
         }
         if (!data.hashedPassword) {
-            throw new Error("Password is required!")
+            console.error("Password is required!")
+            return reply.status(401).send({ message: 'Password is required!' });
+
         }
 
 
         const user = await useAuth.login(data)
 
         if (!user || !user.hashedPassword) {
-            throw new Error("Invalid email ou Password")
+            console.log("Invalid email ou Password")
+            return reply.status(401).send({ message: '"Invalid email ou Password"' });
+
         }
         const isCorrectPassword = await bcrypt.compare(
             data.hashedPassword,
             user.hashedPassword
         )
         if (!isCorrectPassword) {
-            throw new Error("Invalid email or password")
+            console.log("Invalid email or password")
+            return reply.status(401).send({ message: 'Invalid email or password' });
+
         }
 
         // Create JWT token
@@ -47,7 +57,7 @@ class AuthController {
 
 
 
-        return reply.send({ user, token })
+        return reply.status(200).send({ user, token })
     }
 
 }

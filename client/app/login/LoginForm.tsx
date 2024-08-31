@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { api } from "@/service/api.service";
+import axios from "axios";
 
 
 
@@ -19,6 +20,8 @@ import { api } from "@/service/api.service";
 
 export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false)
+  const [email, setEmail] = useState<string>()
+  const [hashedPassword, setHashedPassword] = useState<string>()
 
 
   //console.log("Usera teste", userTeste)
@@ -43,44 +46,48 @@ export default function LoginForm() {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     //setIsLoading(true)
     console.log(data)
+    if (data.email) {
+      setEmail(data.email)
+    } else {
+      toast("Email is misssing")
+      return
+    }
+
+    if (data.password) {
+      setHashedPassword(data.password)
+    } else {
+      toast("Email is misssing")
+      return
+    }
+
+
     const toastId = toast.loading('Carregando...');
-
     try {
+      const response = await fetch('http://localhost:8000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          hashedPassword
+        }),
+      });
 
-      // ...
-
-
-
-      const result = await api.post("/login", {
-        email: data.email,
-        hashedPassword: data.hashedPassword
-      })
-
-
-      console.log("Entrou .... >>>> O Result front-end", result)
-
-
-
-
-      if (result?.data) {
-        console.log("Mostrando o erro 2", result)
-        toast.dismiss(toastId);
-        toast.success("Login Feito com Sucesso!")
-
-        return
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Something went wrong');
       }
 
-
-      toast.success("Login Feito com Sucesso")
+      const data = await response.json();
+      // Handle successful login
+      
       toast.dismiss(toastId)
-
-      router.replace('/')
-
-    } catch (error) {
-      console.log("O erro está aqui", error)
-      toast.error('Falha ao efetuar o login.')
-      toast.dismiss(toastId);
-      setIsLoading(false)
+      toast.success('Login successful!'); // Success message
+      //router.replace("/")
+    } catch (error: any) {
+      toast.dismiss(toastId)
+      toast.error(error.message); // Display error message as a toast
     }
   }
 
@@ -120,7 +127,7 @@ export default function LoginForm() {
                   render={({ field }) => <TextInput className="dark:bg-slate-500" type="email" placeholder="exemple@chats.com" {...field}
 
 
-                    color={`${errors.email && 'failure'}`}
+                    color={`${errors.email ? 'failure' : 'gray'}`}
                     helperText={
                       errors.email &&
                       <>
@@ -137,20 +144,20 @@ export default function LoginForm() {
                   <Label htmlFor="password1" value="Your password" />
                 </div>
                 <Controller
-                  name="hashedPassword"
+                  name="password"
                   control={control}
                   rules={{
                     required: "Password is  required!",
                   }}
-                  render={({ field }) => <TextInput className="" id="hashedPassword1" type="hashedPassword" placeholder="" {...field}
+                  render={({ field }) => <TextInput className="dark:text-gray-500 focus:dark:bg-gray-400" id="password" type="password" placeholder="" {...field}
 
 
-                    color={`${errors.hashedPassword && 'failure'}`}
+                    color={`${errors.password ? 'failure' : 'grey'}`}
                     helperText={
-                      errors.hashedPassword &&
+                      errors.password &&
                       <>
 
-                        <span className="font-medium text-sm">Oops!</span> {errors.hashedPassword.message}
+                        <span className="font-medium text-sm">Oops!</span> {errors.password.message}
                       </>
                     }
                   />}
