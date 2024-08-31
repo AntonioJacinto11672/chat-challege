@@ -1,11 +1,12 @@
 import { FastifyInstance, FastifyPluginOptions, FastifyRequest, FastifyReply } from "fastify";
 import { UserController } from "../controllers/UserController";
+import verifyJWT from "../../validation/verifyJWT";
 
 /* Route para utilizador */
 const userController = new UserController()
 export async function userRoutes(fastify: FastifyInstance, options: FastifyPluginOptions) {
      /* Route of get All users */
-     fastify.get("/users", async (request: FastifyRequest, reply: FastifyReply) => {
+     fastify.get("/users",  { preHandler: verifyJWT },async (request: FastifyRequest, reply: FastifyReply) => {
         return await userController.getAllUsers(request, reply)
     })
 
@@ -19,7 +20,7 @@ export async function userRoutes(fastify: FastifyInstance, options: FastifyPlugi
     })
 
      /* router Update user */
-     fastify.put("/users", async (request: FastifyRequest, reply: FastifyReply) => {
+     fastify.put("/users", { preHandler: verifyJWT }, async (request: FastifyRequest, reply: FastifyReply) => {
         return await userController.updateUsers(request, reply)
     })
 

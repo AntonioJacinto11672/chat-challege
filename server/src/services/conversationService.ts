@@ -1,5 +1,4 @@
 
-import { Conversetion } from "@prisma/client";
 import prismaClient from "../prisma";
 import { Membersprops } from "../controllers/ConversationController";
 

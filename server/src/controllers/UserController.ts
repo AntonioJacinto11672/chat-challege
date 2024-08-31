@@ -60,8 +60,8 @@ class UserController {
             }
         }
 
-
-        data.hashedPassword = await bcrypt.hash(data.hashedPassword, 10)
+        const salt = await bcrypt.genSalt(10);
+        data.hashedPassword = await bcrypt.hash(data.hashedPassword, salt)
 
 
         const responseControllerUsers = await userService.ceateUsers(data)
