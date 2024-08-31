@@ -54,14 +54,14 @@ export default function LoginForm() {
       setEmail(data.email)
     } else {
       toast("Email is misssing")
-      return
+      
     }
 
     if (data.password) {
       setHashedPassword(data.password)
     } else {
-      toast("Email is misssing")
-      return
+      toast("Password is misssing")
+        
     }
 
 

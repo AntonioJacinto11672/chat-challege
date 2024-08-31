@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./Providers";
+import {  ThemeProviders } from "./ThemeProviders";
 import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -25,9 +25,9 @@ export default function RootLayout({
             color: '#fff'
           }
         }} />
-        <Providers>
+        <ThemeProviders>
           {children}
-        </Providers>
+        </ThemeProviders>
       </body>
     </html>
   );

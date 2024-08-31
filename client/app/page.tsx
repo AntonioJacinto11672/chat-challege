@@ -8,7 +8,7 @@ import { IoSettingsOutline, IoSettingsSharp } from "react-icons/io5";
 import { MdDarkMode, MdMessage, MdOutlineLightMode } from "react-icons/md";
 import { RiContactsLine, RiLogoutCircleLine, RiProfileLine, RiRefreshFill } from "react-icons/ri";
 import Myprofile from "./components/contentMenuUsers/MyProfile";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import Chats from "./components/contentMenuUsers/Chats";
 import Settings from "./components/contentMenuUsers/Settings";
@@ -30,18 +30,23 @@ import { CgDarkMode } from "react-icons/cg";
 import Cookies from 'js-cookie';
 import { redirect, useRouter } from "next/navigation";
 import Contacts from "./components/contentMenuUsers/Contacts";
+import { getUserLogin } from "@/libs/getUserLogin";
+import { user } from "@nextui-org/react";
 
 
 
 export default function Home() {
   const { theme, setTheme, systemTheme, } = useTheme()
   const [isOpen, setIsOpen] = useState(false);
+  const [conversation, setConversation] = useState<ConversetionType[]>([])
+
   const router = useRouter();
+
   /* logic for change sidebar menu content */
   const [currentComponetMenu, setCurrentComponetMenu] = useState<number>(0)
   const componetsSideBar = [
     <Myprofile />,
-    <Chats />,
+    <Chats data={conversation} />,
     <Contacts />,
     <Settings />
   ]
@@ -63,15 +68,49 @@ export default function Home() {
   }
 
   const currentTheme = theme === 'system' ? systemTheme : theme
-
+  /* Logut  */
   const handleLogout = () => {
     /* Clear Cookeas */
     Cookies.remove('token', { path: '/' });
-
     Cookies.remove('user', { path: '/' });
-
     router.replace('/login');
   };
+
+  /* Get user logged */
+
+  const { userData } = getUserLogin()
+  /* Create a chat */
+  useEffect(() => {
+    if (userData?.id) {
+      getConversation()
+    }
+  }, [userData?.id])
+
+  const getConversation = async () => {
+    try {
+      console.log(userData?.id)
+      const response = await fetch(`http://localhost:8000/conversation?id=${userData?.id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Something went wrong');
+      }
+
+      const data = await response.json();
+
+      //console.log("As conversas ", data)
+      setConversation(data)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
 
   return (
     <>
@@ -82,7 +121,7 @@ export default function Home() {
           <div className="">
 
             <ul>
-              <li className="flex-grow lg:flex-grow-0" onClick={() => {handleCurrentComponent(0)}}>
+              <li className="flex-grow lg:flex-grow-0" onClick={() => { handleCurrentComponent(0) }}>
                 <a id="default-tab" href="#first" className={`tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg ${currentComponetMenu == 0 ? 'text-indigo-600 bg-indigo-200 bg-opacity-90' : 'hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all'}`}>
                   <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                     <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
@@ -91,7 +130,7 @@ export default function Home() {
                   <FaRegUser className="" />
                 </a>
               </li>
-              <li className="flex-grow lg:flex-grow-0" onClick={() => {handleCurrentComponent(1)}}>
+              <li className="flex-grow lg:flex-grow-0" onClick={() => { handleCurrentComponent(1) }}>
                 <a id="default-tab" href="#one " className={`tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg ${currentComponetMenu == 1 ? 'text-indigo-600 bg-indigo-200 bg-opacity-90' : 'hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all'}`}>
                   <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                     <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
@@ -100,8 +139,8 @@ export default function Home() {
                   <AiOutlineMessage className="" />
                 </a>
               </li>
-              <li className="flex-grow lg:flex-grow-0" onClick={() => {handleCurrentComponent(2)}}>
-                <a id="default-tab" href="#second"  className={`tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg ${currentComponetMenu == 2 ? 'text-indigo-600 bg-indigo-200 bg-opacity-90' : 'hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all'}`}>
+              <li className="flex-grow lg:flex-grow-0" onClick={() => { handleCurrentComponent(2) }}>
+                <a id="default-tab" href="#second" className={`tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg ${currentComponetMenu == 2 ? 'text-indigo-600 bg-indigo-200 bg-opacity-90' : 'hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all'}`}>
                   <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                     <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
                     <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">ConctactS</span>
@@ -109,8 +148,8 @@ export default function Home() {
                   <RiContactsLine className="" />
                 </a>
               </li>
-              <li className="flex-grow lg:flex-grow-0" onClick={() => {handleCurrentComponent(3)}}>
-                <a id="default-tab" href="#third"  className={`tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg ${currentComponetMenu == 3 ? 'text-indigo-600 bg-indigo-200 bg-opacity-90' : 'hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all'}`}>
+              <li className="flex-grow lg:flex-grow-0" onClick={() => { handleCurrentComponent(3) }}>
+                <a id="default-tab" href="#third" className={`tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg ${currentComponetMenu == 3 ? 'text-indigo-600 bg-indigo-200 bg-opacity-90' : 'hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all'}`}>
                   <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                     <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
                     <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Settings</span>
