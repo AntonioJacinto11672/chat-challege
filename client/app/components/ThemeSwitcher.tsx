@@ -31,7 +31,7 @@ const ThemeSwitcher = () => {
                     <a id="default-tab" href="#first" className="tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all">
                         <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                             <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
-                            <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Settings</span>
+                            <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Ligth Mode</span>
                         </div>
                         <MdOutlineLightMode className="" onClick={() => setTheme('ligth')} />
                     </a>
@@ -45,7 +45,7 @@ const ThemeSwitcher = () => {
                     <a id="default-tab" href="#first" className="tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all">
                         <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                             <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
-                            <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Settings</span>
+                            <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Dark Mode</span>
                         </div>
                         <MdDarkMode className="" onClick={() => setTheme('dark')} />
                     </a>

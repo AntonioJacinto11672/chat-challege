@@ -27,6 +27,8 @@ import {
   HiUsers,
 } from "react-icons/hi";
 import { CgDarkMode } from "react-icons/cg";
+import Cookies from 'js-cookie';
+import { redirect, useRouter } from "next/navigation";
 
 const componets = [
 
@@ -35,11 +37,28 @@ const componets = [
 export default function Home() {
   const { theme, setTheme, systemTheme, } = useTheme()
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const handleClose = () => setIsOpen(false);
 
+  const token = Cookies.get('token')
+  //console.log("Token avaliable", token)
+  if (!token) {
+    console.log("Token avaliable 2", token)
+
+    redirect('/login')
+  }
+
   const currentTheme = theme === 'system' ? systemTheme : theme
 
+  const handleLogout = () => {
+    /* Clear Cookeas */
+    Cookies.remove('token', { path: '/' });
+
+    Cookies.remove('user', { path: '/' });
+
+    router.replace('/login');
+  };
 
   return (
     <>
@@ -94,11 +113,11 @@ export default function Home() {
           <div className="pt-4">
             <ul>
               <ThemeSwitcher />
-              <li className="flex-grow lg:flex-grow-0">
+              <li className="flex-grow lg:flex-grow-0" onClick={handleLogout}>
                 <a id="default-tab" href="#first" className="tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all">
                   <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                     <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
-                    <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Settings</span>
+                    <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">logout</span>
                   </div>
                   <RiLogoutCircleLine className="text-red-600" />
                 </a>
@@ -160,7 +179,7 @@ export default function Home() {
                       <Sidebar.Item href="https://github.com/themesberg/flowbite-react/issues" icon={HiInformationCircle}>
                         Help
                       </Sidebar.Item>
-                      <Sidebar.Item href="https://flowbite-react.com/" icon={HiLogout}>
+                      <Sidebar.Item href="" icon={HiLogout}  onClick={handleLogout}>
                         Sign Out
                       </Sidebar.Item>
                     </Sidebar.ItemGroup>

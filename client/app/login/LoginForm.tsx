@@ -8,11 +8,10 @@ import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
-import { api } from "@/service/api.service";
-import axios from "axios";
 import Cookies from 'js-cookie';
+import { redirect } from "next/navigation";
+
 
 
 
@@ -42,7 +41,11 @@ export default function LoginForm() {
   const router = useRouter()
 
 
-
+  /*   const token = Cookies.get('token')
+  
+    if (token) {
+      redirect('/')
+    } */
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     //setIsLoading(true)
@@ -83,7 +86,7 @@ export default function LoginForm() {
       const data = await response.json();
       // Handle successful login
 
-      console.log(data)
+      //console.log(data)
 
 
       if (data && data.user && data.token) {
@@ -95,18 +98,25 @@ export default function LoginForm() {
           path: '/', // disponível para todo o site
         });
 
-        Cookies.set('token', data, {
-          expires: 1, // expira em 1 dia
+
+        Cookies.set('user', JSON.stringify({
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email
+        }), {
+          expires: 1,
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'strict',
           path: '/',
         });
 
+
       }
 
-      router.replace("/")
       toast.dismiss(toastId)
       toast.success('Login successful!'); // Success message
+      router.replace("/")
+
     } catch (error: any) {
       toast.dismiss(toastId)
       toast.error(error.message); // Display error message as a toast
