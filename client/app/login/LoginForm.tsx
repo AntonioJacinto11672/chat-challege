@@ -184,7 +184,7 @@ export default function LoginForm() {
                   render={({ field }) => <TextInput className="dark:text-gray-500 focus:dark:bg-gray-400" id="password" type="password" placeholder="" {...field}
 
 
-                    color={`${errors.password ? 'failure' : 'grey'}`}
+                    color={`${errors.password ? 'failure' : 'dark:grey'}`}
                     helperText={
                       errors.password &&
                       <>
