@@ -8,7 +8,7 @@ import { IoSettingsOutline, IoSettingsSharp } from "react-icons/io5";
 import { MdDarkMode, MdMessage, MdOutlineLightMode } from "react-icons/md";
 import { RiContactsLine, RiLogoutCircleLine, RiProfileLine, RiRefreshFill } from "react-icons/ri";
 import Myprofile from "./components/contentMenuUsers/MyProfile";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import Chats from "./components/contentMenuUsers/Chats";
 import Settings from "./components/contentMenuUsers/Settings";
@@ -29,15 +29,28 @@ import {
 import { CgDarkMode } from "react-icons/cg";
 import Cookies from 'js-cookie';
 import { redirect, useRouter } from "next/navigation";
+import Contacts from "./components/contentMenuUsers/Contacts";
 
-const componets = [
 
-]
 
 export default function Home() {
   const { theme, setTheme, systemTheme, } = useTheme()
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  /* logic for change sidebar menu content */
+  const [currentComponetMenu, setCurrentComponetMenu] = useState<number>(0)
+  const componetsSideBar = [
+    <Myprofile />,
+    <Chats />,
+    <Contacts />,
+    <Settings />
+  ]
+
+  const handleCurrentComponent = useCallback((value: number) => {
+    setCurrentComponetMenu(value)
+
+  }, [currentComponetMenu])
+
 
   const handleClose = () => setIsOpen(false);
 
@@ -69,8 +82,8 @@ export default function Home() {
           <div className="">
 
             <ul>
-              <li className="flex-grow lg:flex-grow-0">
-                <a id="default-tab" href="#first" className="tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg text-indigo-600 bg-indigo-200 bg-opacity-90">
+              <li className="flex-grow lg:flex-grow-0" onClick={() => {handleCurrentComponent(0)}}>
+                <a id="default-tab" href="#first" className={`tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg ${currentComponetMenu == 0 ? 'text-indigo-600 bg-indigo-200 bg-opacity-90' : 'hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all'}`}>
                   <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                     <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
                     <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg " >Profile</span>
@@ -78,8 +91,8 @@ export default function Home() {
                   <FaRegUser className="" />
                 </a>
               </li>
-              <li className="flex-grow lg:flex-grow-0">
-                <a id="default-tab" href="#first" className="tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all">
+              <li className="flex-grow lg:flex-grow-0" onClick={() => {handleCurrentComponent(1)}}>
+                <a id="default-tab" href="#one " className={`tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg ${currentComponetMenu == 1 ? 'text-indigo-600 bg-indigo-200 bg-opacity-90' : 'hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all'}`}>
                   <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                     <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
                     <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Chats</span>
@@ -87,8 +100,8 @@ export default function Home() {
                   <AiOutlineMessage className="" />
                 </a>
               </li>
-              <li className="flex-grow lg:flex-grow-0">
-                <a id="default-tab" href="#first" className="tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all">
+              <li className="flex-grow lg:flex-grow-0" onClick={() => {handleCurrentComponent(2)}}>
+                <a id="default-tab" href="#second"  className={`tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg ${currentComponetMenu == 2 ? 'text-indigo-600 bg-indigo-200 bg-opacity-90' : 'hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all'}`}>
                   <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                     <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
                     <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">ConctactS</span>
@@ -96,8 +109,8 @@ export default function Home() {
                   <RiContactsLine className="" />
                 </a>
               </li>
-              <li className="flex-grow lg:flex-grow-0">
-                <a id="default-tab" href="#first" className="tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all">
+              <li className="flex-grow lg:flex-grow-0" onClick={() => {handleCurrentComponent(3)}}>
+                <a id="default-tab" href="#third"  className={`tab-button flex relative items-center justify-center mx-auto h-12 w-12 leading-[14px] group/tab my-2 rounded-lg ${currentComponetMenu == 3 ? 'text-indigo-600 bg-indigo-200 bg-opacity-90' : 'hover:bg-indigo-200 hover:bg-opacity-90 hover:transition-all'}`}>
                   <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                     <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
                     <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Settings</span>
@@ -132,7 +145,7 @@ export default function Home() {
         {/* End SideBar */}
         {/* Start  profile ( chat list/ config  */}
         <div className="hidden lg:block lg:col-span-4 bg-gray-50 text-black dark:text-white dark:bg-slate-800  overflow-y-hidden mb-[80px] lg:mb-0 ">
-          <Chats />
+          {componetsSideBar[currentComponetMenu]}
         </div>
         {/* End  profile ( chat list/ config  */}
         {/* Start Message Content */}
@@ -179,7 +192,7 @@ export default function Home() {
                       <Sidebar.Item href="https://github.com/themesberg/flowbite-react/issues" icon={HiInformationCircle}>
                         Help
                       </Sidebar.Item>
-                      <Sidebar.Item href="" icon={HiLogout}  onClick={handleLogout}>
+                      <Sidebar.Item href="" icon={HiLogout} onClick={handleLogout}>
                         Sign Out
                       </Sidebar.Item>
                     </Sidebar.ItemGroup>

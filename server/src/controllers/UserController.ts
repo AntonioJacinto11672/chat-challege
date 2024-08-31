@@ -4,6 +4,8 @@ import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { validatePassword } from "../../validation/password";
 import { validateEmail } from "../../validation/email";
+import jwt from "jsonwebtoken"
+
 
 const userService = new UserService()
 
@@ -50,13 +52,19 @@ class UserController {
             throw new Error("All field is required!")
         } else {
             if (!data.email) {
-                throw new Error("email is missing!")
+                return reply.status(401).send({ message: "email is missing!" })
             } else if (!data.hashedPassword) {
-                throw new Error("Passwor is missing...")
+                return reply.status(401).send({ message: "Passwor is missing..." })
             } else if (!validatePassword(data.hashedPassword)) {
-                throw new Error(validatePassword(data.hashedPassword).messages[0])
+                return reply.status(401).send({ message: validatePassword(data.hashedPassword).messages[0] })
             } else if (!validateEmail(data.email)) {
-                throw new Error("Email is not valid")
+                return reply.status(401).send({ message: "Email is not valid" })
+            }
+            const searchTerm = data.email
+            const emailUnique = await userService.getUserByEmail({ searchTerm })
+            console.log("Email is unique", emailUnique)
+            if (emailUnique) {
+                return reply.status(401).send({ message: "We have acount associate this email, please try other" })
             }
         }
 
@@ -66,8 +74,16 @@ class UserController {
 
         const responseControllerUsers = await userService.ceateUsers(data)
 
+        // Create JWT token
+        const token = jwt.sign(
+            { id: responseControllerUsers.id, email: responseControllerUsers.email }, // payload
+            process.env.JWT_SECRET!, // secret key (make sure to store it securely)
+            { expiresIn: '1d' } // token expiration time
+        );
 
-        reply.send(responseControllerUsers)
+
+
+        return reply.status(200).send({ responseControllerUsers, token })
 
     }
 

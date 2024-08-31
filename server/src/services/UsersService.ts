@@ -1,5 +1,6 @@
 import { User } from "@prisma/client";
 import prismaClient from "../prisma";
+import client from "../prisma";
 
 interface IdParams {
     id: string
@@ -38,6 +39,28 @@ class UserService {
         }
     }
 
+    /* get user by Email */
+
+    async getUserByEmail({ searchTerm }: IUsersParams) {
+        if (!searchTerm) {
+            return false
+        }
+
+        const email = await client.user.findFirst({
+            where: {
+                email: searchTerm
+            }
+        })
+
+        if (!email) {
+            return false
+        } 
+
+        return true
+
+
+
+    }
 
     /* get a users  */
     async getUsersTermSearch({ searchTerm }: IUsersParams) {

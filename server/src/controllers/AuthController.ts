@@ -35,7 +35,7 @@ class AuthController {
 
         if (!user || !user.hashedPassword) {
             console.log("Invalid email ou Password")
-            return reply.status(401).send({ message: '"Invalid email ou Password"' });
+            return reply.status(401).send({ message: "Invalid email ou Password" });
 
         }
         const isCorrectPassword = await bcrypt.compare(
@@ -56,7 +56,7 @@ class AuthController {
         );
 
 
-
+        
         return reply.status(200).send({ user, token })
     }
 

@@ -116,7 +116,7 @@ const Settings = () => {
     return (<>
         <div className="flex flex-col  p-4 ">
             <div className=" flex justify-between text-lg font-semibold">
-                <h4 className="mb-0 text-gray-700 dark:text-gray-50"> <a href="">My Profile</a> </h4>
+                <h4 className="mb-0 text-gray-700 dark:text-gray-50"> <a href="">Settings</a> </h4>
                 <nav>
                     <a href=""><CiMenuKebab /></a>
                 </nav>
