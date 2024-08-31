@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { api } from "@/service/api.service";
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 
 
@@ -81,10 +82,31 @@ export default function LoginForm() {
 
       const data = await response.json();
       // Handle successful login
-      
+
+      console.log(data)
+
+
+      if (data && data.user && data.token) {
+        // Armazenando o token em um cookie
+        Cookies.set('token', data.token, {
+          expires: 1, // expira em 1 dia
+          secure: process.env.NODE_ENV === 'production', // usar secure em produção
+          sameSite: 'strict', // proteger contra CSRF
+          path: '/', // disponível para todo o site
+        });
+
+        Cookies.set('token', data, {
+          expires: 1, // expira em 1 dia
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict',
+          path: '/',
+        });
+
+      }
+
+      router.replace("/")
       toast.dismiss(toastId)
       toast.success('Login successful!'); // Success message
-      //router.replace("/")
     } catch (error: any) {
       toast.dismiss(toastId)
       toast.error(error.message); // Display error message as a toast
