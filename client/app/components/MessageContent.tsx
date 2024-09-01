@@ -1,19 +1,25 @@
+import { ReactNode } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { IoMenuSharp, IoSearch } from "react-icons/io5";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { VscKebabVertical } from "react-icons/vsc";
+import MessageItems from "./message/MessageItems";
 
 interface MenssageContentProps {
-    openMenu: () => void
+    onclick?: () => void,
+    sender?: ConversetionType
+    children: ReactNode
 }
-const MenssageContent: React.FC<MenssageContentProps> = ({ openMenu }) => {
+const MenssageContent: React.FC<MenssageContentProps> = ({ sender, children }) => {
     return (<>
+    
         <div className="grid grid-rows-12  h-full ">
+            
             {/* Start Message Header */}
             <div className="Message-header  row-span-1 p-4 shadow-sm  border-b-2 dark:border-b-slate-800  dark:bg-slate-700 flex justify-between items-center">
                 <div>
                     <div className="flex items-center gap-4">
-                        <div className="lg:hidden text-2xl font-medium cursor-pointer" onClick={openMenu}><IoMenuSharp /></div>
+                        <div className="lg:hidden text-2xl font-medium cursor-pointer"><IoMenuSharp /></div>
                         <img
                             className="w-10 h-10 rounded-full"
                             src="avatar2.png"
@@ -35,63 +41,13 @@ const MenssageContent: React.FC<MenssageContentProps> = ({ openMenu }) => {
                 </div>
             </div>
             {/* End Message Header */}
-            {/* Start Message Content */}
+
+            {/* Start MessageIntes Hire */}
             <div className="Message-Content  row-span-9 overflow-auto p-4">
-
-                <div className="flex items-start gap-2.5 ">
-                    <img
-                        className="w-8 h-8 rounded-full"
-                        src="avatar2.png"
-                        alt="Jese image"
-                    />
-                    <div className="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-                        <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                            <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                                Bonnie Green
-                            </span>
-                            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                                11:46
-                            </span>
-                        </div>
-                        <p className="text-sm font-normal py-2.5 text-gray-900 dark:text-white">
-                            That's awesome. I think our users will really appreciate the improvements.
-                        </p>
-                        <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                            Delivered
-                        </span>
-                    </div>
-
-                </div>
-
-                <div className="flex items-start gap-2.5 flex-row-reverse mt-3">
-                    <img
-                        className="w-8 h-8 rounded-full"
-                        src="avatar2.png"
-                        alt="Jese image"
-                    />
-                    <div className="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-                        <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                            <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                                Bonnie Green
-                            </span>
-                            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                                11:46
-                            </span>
-                        </div>
-                        <p className="text-sm font-normal py-2.5 text-gray-900 dark:text-white">
-                            That's awesome. I think our users will really appreciate the improvements.
-                        </p>
-                        <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                            Delivered
-                        </span>
-                    </div>
-
-                </div>
-
-
+                {children}
             </div>
-            {/* End Message Content */}
-            {/* Start Message Footer Send Message */}
+            {/* End MessageIntes Hire */}
+
             <div className="Message-footer  row-span-2 ">
                 <form>
                     <label htmlFor="chat" className="sr-only">

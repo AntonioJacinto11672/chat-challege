@@ -14,7 +14,7 @@ const ConversetionItems: React.FC<ConversetionItemsProps> = ({ conversation }) =
 
 
     /* Pegar outro membro da convera */
-    console.log("Aqui não faz nada")
+    //console.log("Aqui não faz nada")
 
     useEffect(() => {
 

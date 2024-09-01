@@ -31,7 +31,8 @@ import Cookies from 'js-cookie';
 import { redirect, useRouter } from "next/navigation";
 import Contacts from "./components/contentMenuUsers/Contacts";
 import { getUserLogin } from "@/libs/getUserLogin";
-import { user } from "@nextui-org/react";
+import ConversetionItems from "./components/contentMenuUsers/ConversetionItems";
+import MessageItems from "./components/message/MessageItems";
 
 
 
@@ -39,6 +40,13 @@ export default function Home() {
   const { theme, setTheme, systemTheme, } = useTheme()
   const [isOpen, setIsOpen] = useState(false);
   const [conversation, setConversation] = useState<ConversetionType[]>([])
+  const [member, setMember] = useState()
+  const [messages, setMessages] = useState<MessageType[]>([])
+  const [newMessages, setNewMessages] = useState<MessageType>()
+  const [currentchat, setCurrentChat] = useState<ConversetionType>()
+
+
+
 
   const router = useRouter();
 
@@ -46,7 +54,17 @@ export default function Home() {
   const [currentComponetMenu, setCurrentComponetMenu] = useState<number>(0)
   const componetsSideBar = [
     <Myprofile />,
-    <Chats data={conversation} />,
+    <Chats>
+      {
+        conversation && conversation.map(value => {
+          return (
+            <div onClick={() => setCurrentChat(value)}>
+              <ConversetionItems conversation={value} key={value.id} />
+            </div>
+          )
+        })
+      }
+    </Chats>,
     <Contacts />,
     <Settings />
   ]
@@ -86,6 +104,7 @@ export default function Home() {
     }
   }, [userData?.id])
 
+  /* Pegar conversa */
   const getConversation = async () => {
     try {
       console.log(userData?.id)
@@ -110,7 +129,43 @@ export default function Home() {
     }
   }
 
+  /* Pegar outro membro da convera */
+  /* 
+    verificar ddepois como pegar os membros
+  */
 
+
+  /* pegar messages */
+
+  const getMessage = async () => {
+    try {
+      console.log("CurrenrtChat id ", currentchat?.id)
+      const response = await fetch(`http://localhost:8000/message?id=66d1f9d30de49438256f47cd`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Something went wrong');
+      }
+
+      const data = await response.json();
+
+      console.log("As Messages ", data)
+      setMessages(data)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    if (userData?.id) {
+      getMessage()
+    }
+  }, [currentchat])
 
   return (
     <>
@@ -190,7 +245,13 @@ export default function Home() {
         {/* Start Message Content */}
 
         <div className="col-span-12 lg:col-span-7 bg-white dark:bg-slate-900  overflow-hidden">
-          <MenssageContent openMenu={() => setIsOpen(true)} />
+          
+          {currentchat && currentchat ? <MenssageContent sender={currentchat}>
+            {messages && messages.map((message) => {
+              return <MessageItems key={message.id} message={message} own={message.sender === userData?.id} />
+            })}
+          </MenssageContent> : <h1 className="text-2xl text-center my-auto flex justify-center items-center content-center"> Open a conversation to start a chat</h1>}
+
         </div>
 
         {/* End Message Content */}

@@ -1,10 +1,12 @@
+'use client'
+import { ReactNode, useState } from "react";
 import ConversetionItems from "./ConversetionItems";
 
 interface ChatsProps {
-    data?: ConversetionType[]
+    children: ReactNode,
 }
 
-const Chats: React.FC<ChatsProps> = ({ data }) => {
+const Chats: React.FC<ChatsProps> = ({ children }) => {
 
     return (<>
         <div className="tab-content active">
@@ -35,13 +37,7 @@ const Chats: React.FC<ChatsProps> = ({ data }) => {
                     <h5 className="px-6 mb-4 text-16 dark:text-gray-50">Recent</h5>
                     <div className="h-[610px] px-2" data-simplebar="">
                         <ul className="  max-h-[465px]  overflow-y-auto  mb-20">
-                            {
-                                data && data.map(value => {
-                                    return (
-                                        <ConversetionItems conversation={value}  key={value.id}/>
-                                    )
-                                })
-                            }
+                            {children}
                         </ul>
                     </div>
                 </div>
