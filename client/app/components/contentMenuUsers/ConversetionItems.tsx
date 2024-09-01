@@ -50,6 +50,7 @@ const ConversetionItems: React.FC<ConversetionItemsProps> = ({ conversation }) =
 
     }, [userData?.id, conversation])
 
+    const PK = process.env.URL_PUBLIC?process.env.URL_PUBLIC : '' ;
 
 
     return (<>
@@ -60,7 +61,7 @@ const ConversetionItems: React.FC<ConversetionItemsProps> = ({ conversation }) =
                         {user?.image ?
                             <>
                                 <img
-                                    src={user.image}
+                                    src={PK + user.image}
                                     className="rounded-full w-9 h-9"
                                     alt={`${user.name && user.name}`}
 

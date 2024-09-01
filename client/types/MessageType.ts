@@ -3,6 +3,6 @@ type MessageType = {
     conversetiionId: string;
     sender: string;
     text: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+    createdAt?: Date | number;
+    updatedAt?: Date | number;
 }

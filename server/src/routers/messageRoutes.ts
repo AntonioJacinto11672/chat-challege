@@ -1,5 +1,7 @@
 import { FastifyInstance, FastifyPluginOptions, FastifyRequest, FastifyReply } from "fastify";
 import { MessageController } from "../controllers/MessageController";
+import verifyJWT from "../../validation/verifyJWT";
+
 
 
 /* Route para utilizador */

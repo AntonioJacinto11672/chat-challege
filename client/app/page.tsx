@@ -8,7 +8,7 @@ import { IoSettingsOutline, IoSettingsSharp } from "react-icons/io5";
 import { MdDarkMode, MdMessage, MdOutlineLightMode } from "react-icons/md";
 import { RiContactsLine, RiLogoutCircleLine, RiProfileLine, RiRefreshFill } from "react-icons/ri";
 import Myprofile from "./components/contentMenuUsers/MyProfile";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import Chats from "./components/contentMenuUsers/Chats";
 import Settings from "./components/contentMenuUsers/Settings";
@@ -33,7 +33,10 @@ import Contacts from "./components/contentMenuUsers/Contacts";
 import { getUserLogin } from "@/libs/getUserLogin";
 import ConversetionItems from "./components/contentMenuUsers/ConversetionItems";
 import MessageItems from "./components/message/MessageItems";
-
+import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import MessageHeader from "./components/message/MessageHeader";
+import MessageFooter from "./components/message/MessageFooter";
+import { io, Socket } from 'socket.io-client';
 
 
 export default function Home() {
@@ -44,7 +47,36 @@ export default function Home() {
   const [messages, setMessages] = useState<MessageType[]>([])
   const [newMessages, setNewMessages] = useState<MessageType>()
   const [currentchat, setCurrentChat] = useState<ConversetionType>()
+  /* Users Loggedd */
+  const { userData } = getUserLogin()
+  const [usersLogId, setUsersLogId] = useState<string>()
+  /* Scroll in currentMessage */
+  const scrollRef = useRef<HTMLDivElement>(null)
+  /* Socket */
 
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages])
+
+  /* Socket */
+const getsocket = useRef<Socket>(io("ws://localhost:8900"));
+
+//const [socket, setSocket] = useState<Socket | null>(null);
+  console.log(getsocket)
+
+  useEffect(() => {
+
+    if (userData?.id) {
+      setUsersLogId(userData.id)
+    }
+  }, [userData?.id])
+
+  const methods = useForm<MessageType>({
+    defaultValues: {
+      text: ''
+    }
+  })
 
 
 
@@ -96,7 +128,6 @@ export default function Home() {
 
   /* Get user logged */
 
-  const { userData } = getUserLogin()
   /* Create a chat */
   useEffect(() => {
     if (userData?.id) {
@@ -140,7 +171,7 @@ export default function Home() {
   const getMessage = async () => {
     try {
       console.log("CurrenrtChat id ", currentchat?.id)
-      const response = await fetch(`http://localhost:8000/message?id=66d1f9d30de49438256f47cd`, {
+      const response = await fetch(`http://localhost:8000/message?id=66d208a656ac6d396a8ca71f`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -166,6 +197,48 @@ export default function Home() {
       getMessage()
     }
   }, [currentchat])
+
+
+  /* Star Message Create */
+
+  const onSubmit: SubmitHandler<MessageType> = async (data) => {
+    console.log("Message for register", data)
+
+    console.log("Message for register", data.text)
+    let textMessage = ''
+    if (data.text) {
+      textMessage = data.text
+    }
+
+    try {
+      console.log("CurrenrtChat id ", currentchat?.id)
+
+      const response = await fetch(`http://localhost:8000/message`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          conversetiionId: currentchat?.id,
+          sender: userData?.id,
+          text: textMessage
+        })
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Something went wrong');
+      }
+
+      const data = await response.json();
+
+      console.log("As Messages ", data)
+      setMessages(prev => [...prev, data])
+      methods.reset();
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
 
   return (
     <>
@@ -245,11 +318,30 @@ export default function Home() {
         {/* Start Message Content */}
 
         <div className="col-span-12 lg:col-span-7 bg-white dark:bg-slate-900  overflow-hidden">
-          
+
+
           {currentchat && currentchat ? <MenssageContent sender={currentchat}>
-            {messages && messages.map((message) => {
-              return <MessageItems key={message.id} message={message} own={message.sender === userData?.id} />
-            })}
+            {/* Start Header Message */}
+            <MessageHeader />
+            {/* End Header Message */}
+
+            <div className="Message-Content  row-span-9 overflow-auto p-4">
+              {messages && messages.map((message) => {
+                console.log("Os ids ", String(message.sender) === String(usersLogId))
+                console.log("Os ids Enviou", String(message.sender))
+                console.log("Os ids Mine", String(usersLogId))
+
+                return <div ref={scrollRef} ><MessageItems key={message.id} message={message} own={message.sender === usersLogId} /></div>
+              })}
+            </div>
+            {/* Start Message footer */}
+            <FormProvider {...methods} >
+              <form onSubmit={methods.handleSubmit(onSubmit)}>
+                <MessageFooter />
+              </form>
+            </FormProvider>
+            {/* Start Message footer */}
+
           </MenssageContent> : <h1 className="text-2xl text-center my-auto flex justify-center items-center content-center"> Open a conversation to start a chat</h1>}
 
         </div>
@@ -302,7 +394,7 @@ export default function Home() {
             </Sidebar>
           </Drawer.Items>
         </Drawer>
-      </main>
+      </main >
     </>
   );
 }

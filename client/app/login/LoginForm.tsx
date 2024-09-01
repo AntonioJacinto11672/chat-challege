@@ -119,7 +119,8 @@ export default function LoginForm() {
 
     } catch (error: any) {
       toast.dismiss(toastId)
-      toast.error(error.message); // Display error message as a toast
+      //toast.error(error.message); // Display error message as a toast
+      console.log(error)
     }
   }
 
